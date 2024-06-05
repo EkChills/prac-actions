@@ -6,4 +6,7 @@ jobs:
     steps:
       - name: Output Issue Event
         run: |
-          echo "${{toJson(github)}}"
+          echo "searching"
+          echo "${{github.event_name}}"
+          echo "completed"
+
