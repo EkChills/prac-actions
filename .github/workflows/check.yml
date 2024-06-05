@@ -1,0 +1,45 @@
+name: Check
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get code
+        uses: actions/checkout@v4
+      - name: install dependencies
+        run: |
+          echo "installing dependencies..."
+          npm ci
+          echo "dependencies installed"
+      - name: run lint
+        run: |
+          echo "running lint..."
+          npm run lint
+          echo "lint completed"
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: run tests
+        run: |
+          echo "starting test..."
+          npm run test
+          echo "tests completed"
+        
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: build
+        run: |
+          echo "building..."
+          npm run build
+          echo "build completed"
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        run: |
+          echo "deploying..."
+
